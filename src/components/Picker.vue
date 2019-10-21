@@ -3,6 +3,7 @@
         <nb-picker
             mode="dropdown"
             placeholder="Selecciona una opción"
+            :style="{ backgroundColor: 'rgb(240, 240, 240)' }"
             :selectedValue="selected"
             :onValueChange="onValueChange">
             <item 

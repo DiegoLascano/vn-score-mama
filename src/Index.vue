@@ -31,10 +31,10 @@ const HomeStack = createStackNavigator(
         initialRouteName: 'Home',
         defaultNavigationOptions : {
             headerStyle: {
-                backgroundColor: Platform.OS === 'ios' ? '' : '#694fad',
+                // backgroundColor: Platform.OS === 'ios' ? '' : '#694fad',
                 marginTop: Platform.OS === 'ios' ? 0 : -24,
             },
-            headerTintColor: Platform.OS === 'ios' ? '' : 'white',
+            // headerTintColor: Platform.OS === 'ios' ? '' : 'white',
         },
     },
 );
@@ -52,10 +52,10 @@ const SettingsStack = createStackNavigator(
         initialRouteName: 'Settings',
         defaultNavigationOptions : {
             headerStyle: {
-                backgroundColor: Platform.OS === 'ios' ? '' : '#694fad',
+                // backgroundColor: Platform.OS === 'ios' ? '' : '#694fad',
                 marginTop: Platform.OS === 'ios' ? 0 : -24,
             },
-            headerTintColor: Platform.OS === 'ios' ? '' : 'white',
+            // headerTintColor: Platform.OS === 'ios' ? '' : 'white',
         },
     },
 )
@@ -66,13 +66,13 @@ const androidNavigator = createMaterialTopTabNavigator (
         Home: {
             screen:HomeStack,
             navigationOptions: {
-                title: 'Inicio',
+                title: 'Calculadora',
             },
         },
         Settings: {
             screen: SettingsStack,
             navigationOptions: {
-                title: 'Configuración',
+                title: 'Instrucciones',
             } 
         },
     }, 
@@ -108,13 +108,13 @@ const iosNavigator = createBottomTabNavigator (
         Home: {
             screen:HomeStack,
             navigationOptions: {
-                title: 'Inicio',
+                title: 'Calculadora',
             },
         },
         Settings: {
             screen: SettingsStack,
             navigationOptions: {
-                title: 'Configuración',
+                title: 'Instrucciones',
             } 
         },
     }, 

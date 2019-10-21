@@ -6,14 +6,19 @@
                 button 
                 bordered
                 @press="toggleScoreInfo()" 
-                :style="{ backgroundColor: scoreColor, padding: 20, flexDirection: 'column' }">
-                <view class="score-result" >
-                    <text class="score-punctuation">Score MAMA</text> 
-                    <text class="score-punctuation">{{ scoreMAMA.score }}</text>
+                :style="{ backgroundColor: scoreColor, padding: 20, flexDirection: 'row', justifyContent: 'space-between' }">
+                <view class="score-up" >
+                    <text class="score-sub">Score MAMA</text> 
+                    <view class="score-down">
+                        <nb-text class="score-punctuation">{{ scoreMAMA.score }}</nb-text>
+                        <nb-text :style="{ fontSize: 14, color: '#29293d' }">&nbsp;puntos</nb-text>
+                    </view>
                 </view>
-                <view class="score-result" >
-                    <nb-text class="score-sub">Puntuación real</nb-text>
-                    <nb-text class="score-sub">{{ scoreMAMAReal }}</nb-text>
+                <view class="icon-container">
+                    <nb-icon v-if="!showScoreInfo" :style="{ color: '#5c5c8a' }" name='ios-add-circle' /> 
+                    <nb-text  v-if="!showScoreInfo" :style="{ fontSize: 12, color: '#29293d' }">Ver más</nb-text>
+                    <nb-icon v-if="showScoreInfo" :style="{ color: '#5c5c8a' }" name='ios-arrow-dropup-circle' /> 
+                    <nb-text v-if="showScoreInfo" :style="{ fontSize: 12, color: '#29293d' }">Ver menos</nb-text>
                 </view>
             </nb-card-item>
             <nb-card-item 
@@ -31,39 +36,39 @@
         </nb-card>
         <nb-content>
             <view>
-                <text :style="{ padding: 10 }">Seleccione el establecimiento</text>
+                <text :style="{ padding: 10, marginTop: 15 }">Seleccione el establecimiento</text>
                 <Picker :array="establecimientos" />
             </view>
             <view>
-                <text :style="{ padding: 10 }">Selecione la frecuencia cardiaca</text>
+                <text :style="{ padding: 10, marginTop: 15 }">Selecione la frecuencia cardiaca</text>
                 <Selectable :array="frecuenciaCardiaca"></Selectable>
             </view>
             <view>
-                <text :style="{ padding: 10 }">Selecione la presión Sistólica</text>
+                <text :style="{ padding: 10, marginTop: 15 }">Selecione la presión Sistólica</text>
                 <Selectable :array="sistolica"></Selectable>
             </view>
             <view>
-                <text :style="{ padding: 10 }">Seleccione la presión Diastólica</text>
+                <text :style="{ padding: 10, marginTop: 15 }">Seleccione la presión Diastólica</text>
                 <Selectable :array="diastolica"></Selectable>
             </view>
             <view>
-                <text :style="{ padding: 10 }">Seleccione la frecuencia respiratoria</text>
+                <text :style="{ padding: 10, marginTop: 15 }">Seleccione la frecuencia respiratoria</text>
                 <Selectable :array="frecuenciaRespitatoria"></Selectable>
             </view>
             <view>
-                <text :style="{ padding: 10 }">Seleccione la temperatura [C]</text>
+                <text :style="{ padding: 10, marginTop: 15 }">Seleccione la temperatura [C]</text>
                 <Selectable :array="temperatura"></Selectable>
             </view>
             <view>
-                <text :style="{ padding: 10 }">Seleccione la saturación [O2]</text>
+                <text :style="{ padding: 10, marginTop: 15 }">Seleccione la saturación [O2]</text>
                 <Selectable :array="saturacion"></Selectable>
             </view>
             <view>
-                <text :style="{ padding: 10 }">Seleccione el estado de conciencia</text>
+                <text :style="{ padding: 10, marginTop: 15 }">Seleccione el estado de conciencia</text>
                 <Picker :array="conciencia" />
             </view>
             <view>
-                <text :style="{ padding: 10 }">Seleccione la proteinuria</text>
+                <text :style="{ padding: 10, marginTop: 15 }">Seleccione la proteinuria</text>
                 <Picker :array="proteinuria" />
             </view>
         </nb-content>
@@ -129,11 +134,11 @@ export default {
                 { id: 3, text: '94-100', score: 0, selected: false, color: 'grey' },
             ],
             conciencia: [
-                { label: 'confusa/agitada', value: 'key0', score: 2, selected: false },
-                { label: 'alerta', value: 'key1', score: 0, selected: true },
-                { label: 'responde a la voz/somnolienta', value: 'key2', score: 1, selected: false },
-                { label: 'responde al dolor/estuporosa', value: 'key3', score: 2, selected: false },
-                { label: 'no responde', value: 'key4', score: 3, selected: false },
+                { label: 'Confusa/agitada', value: 'key0', score: 2, selected: false },
+                { label: 'Alerta', value: 'key1', score: 0, selected: true },
+                { label: 'Responde a la voz/somnolienta', value: 'key2', score: 1, selected: false },
+                { label: 'Responde al dolor/estuporosa', value: 'key3', score: 2, selected: false },
+                { label: 'No responde', value: 'key4', score: 3, selected: false },
             ],
             proteinuria: [
                 { label: 'Negativo', value: 'key0', score: 0, selected: true },
@@ -310,20 +315,31 @@ export default {
 </script>
 
 <style>
-    .score-result{
+    .score-up{
         /* position: relative; */
-        width: 100%;
-        flex-direction: row;
+        /* width: 100%; */
+        flex-direction: column;
         justify-content: space-between;
     }
+    .score-down{
+        /* width: 100%; */
+        flex-direction: row;
+        justify-content: flex-start;
+        align-items: baseline;
+    }
     .score-punctuation{
-        font-size: 18px;
+        color: #5c5c8a;
+        font-size: 36px;
         font-weight: 800;
-        padding-bottom: 15px;
     }
     .score-sub{
-        font-size: 14px;
+        padding-bottom: 15px;
+        font-size: 12px;
         font-weight: 400;
+    }
+    .icon-container{
+        flex-direction: column;
+        align-items: flex-end;
     }
     .info-title{
         font-weight: 600;
