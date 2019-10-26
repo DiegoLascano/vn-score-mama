@@ -56,11 +56,6 @@ export default {
         /* background-color: rgb(240, 240, 240); */
         /* margin-left: 10px; */
     }
-    /* .flex-item{
-        width: 26%;
-        margin: 10px;
-        padding: 10px;
-    } */
     .options{
         flex: 1;
         font-size: 14px;

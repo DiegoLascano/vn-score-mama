@@ -1,7 +1,9 @@
 <template>
-    <view>
-        <text>Settings Screen</text>
-    </view>
+    <nb-container>
+        <nb-content class="body-container">
+            <text>Settings Screen</text>
+        </nb-content>
+    </nb-container>
 </template>
 
 <script>
@@ -15,5 +17,7 @@ export default {
 </script>
 
 <style>
-
+    .body-container{
+        padding: 10px;
+    }
 </style>

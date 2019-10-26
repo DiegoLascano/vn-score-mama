@@ -15,17 +15,23 @@
                             <nb-text :style="{ fontSize: 14, color: 'rgb(72, 72, 74)' }">&nbsp;puntos</nb-text>
                         </view>
                     </view>
-                    <view class="icon-container">
-                        <nb-icon v-if="!showScoreInfo" :style="{ color: 'rgb(44, 44, 46)' }" name='ios-add-circle' /> 
-                        <nb-text  v-if="!showScoreInfo" :style="{ fontSize: 12, color: 'rgb(99,99,102)' }">Ver más</nb-text>
-                        <nb-icon v-if="showScoreInfo" :style="{ color: 'rgb(44, 44, 46)' }" name='ios-arrow-dropup-circle' /> 
-                        <nb-text v-if="showScoreInfo" :style="{ fontSize: 12, color: 'rgb(99,99,102)' }">Ver menos</nb-text>
+                    <view :style="{ display: 'flex' }">
+                        <view :style="{ flex: 1 }">
+                            <view v-if="!showScoreInfo" :style="{ flex: 1, flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }">
+                                <nb-icon :style="{ color: 'rgb(44, 44, 46)' }" name='ios-add-circle' /> 
+                                <nb-text :style="{ fontSize: 12, color: 'rgb(99,99,102)' }">Ver más</nb-text>
+                            </view>
+                            <view v-if="showScoreInfo" :style="{ flex: 1, flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }">
+                                <nb-icon :style="{ color: 'rgb(44, 44, 46)' }" name='ios-arrow-dropup-circle' /> 
+                                <nb-text :style="{ fontSize: 12, color: 'rgb(99,99,102)' }">Ver menos</nb-text>
+                            </view>
+                        </view>
                     </view>
                 </touchable-opacity>
             </view>
             <view
                 v-if="showScoreInfo"
-                :style="{backgroundColor: 'rgb(242,242,247)', paddingTop: 10 }">
+                :style="{ backgroundColor: 'rgb(242,242,247)', paddingTop: 10 }">
                 <view   
                     class="score-container"
                     :style="{ backgroundColor: scoreColor }">
@@ -37,75 +43,41 @@
                 </view>
             </view>
         </view>
-        <!-- <nb-card>
-            <nb-card-item 
-                header 
-                button 
-                bordered
-                @press="toggleScoreInfo()" 
-                :style="{ backgroundColor: scoreColor, padding: 20, flexDirection: 'row', justifyContent: 'space-between', borderRadius: 20 }">
-                <view class="score-up" >
-                    <text class="score-sub">Score MAMA</text> 
-                    <view class="score-down">
-                        <nb-text class="score-punctuation">{{ scoreMAMA.score }}</nb-text>
-                        <nb-text :style="{ fontSize: 14, color: '#29293d' }">&nbsp;puntos</nb-text>
-                    </view>
-                </view>
-                <view class="icon-container">
-                    <nb-icon v-if="!showScoreInfo" :style="{ color: '#5c5c8a' }" name='ios-add-circle' /> 
-                    <nb-text  v-if="!showScoreInfo" :style="{ fontSize: 12, color: '#29293d' }">Ver más</nb-text>
-                    <nb-icon v-if="showScoreInfo" :style="{ color: '#5c5c8a' }" name='ios-arrow-dropup-circle' /> 
-                    <nb-text v-if="showScoreInfo" :style="{ fontSize: 12, color: '#29293d' }">Ver menos</nb-text>
-                </view>
-            </nb-card-item>
-            <nb-card-item 
-                v-if="showScoreInfo"
-                bordered
-                :style="{ backgroundColor: scoreColor }">
-                    <nb-body>
-                        <nb-text class="info-title">{{ scoreMAMA.title }}</nb-text>
-                            <flat-list
-                                :data="scoreMAMA.steps"
-                                :render-item="(item) => renderList(item)"
-                            />
-                    </nb-body>
-            </nb-card-item>
-        </nb-card> -->
         <nb-content class="body-container">
             <text class="options-label">Tipo de establecimiento</text>
-            <view class="options-container">
+            <view class="options-container-picker">
                 <Picker :array="establecimientos" />
             </view>
             <text class="options-label">Frecuencia Cardíaca</text>
-            <view class="options-container">
+            <view class="options-container-selectable">
                 <Selectable :array="frecuenciaCardiaca"></Selectable>
             </view>
             <text class="options-label">Presión Sistólica</text>
-            <view class="options-container">
+            <view class="options-container-selectable">
                 <Selectable :array="sistolica"></Selectable>
             </view>
             <text class="options-label">Presión Diastólica</text>
-            <view class="options-container">
+            <view class="options-container-selectable">
                 <Selectable :array="diastolica"></Selectable>
             </view>
             <text class="options-label">Frecuencia Respiratoria</text>
-            <view class="options-container">
+            <view class="options-container-selectable">
                 <Selectable :array="frecuenciaRespitatoria"></Selectable>
             </view>
             <text class="options-label">Temperatura</text>
-            <view class="options-container">
+            <view class="options-container-selectable">
                 <Selectable :array="temperatura"></Selectable>
             </view>
             <text class="options-label">Saturación</text>
-            <view class="options-container">
+            <view class="options-container-selectable">
                 <Selectable :array="saturacion"></Selectable>
             </view>
             <text class="options-label">Estado de Conciencia</text>
-            <view class="options-container">
+            <view class="options-container-picker">
                 <Picker :array="conciencia" />
             </view>
             <text class="options-label">Proteinuria</text>
-            <view class="options-container options-end">
+            <view class="options-container-picker options-end">
                 <Picker :array="proteinuria" />
             </view>
         </nb-content>
@@ -363,13 +335,10 @@ export default {
         margin-right: 10;
     }
     .score-up{
-        /* position: relative; */
-        /* width: 100%; */
         flex-direction: column;
         justify-content: space-between;
     }
     .score-down{
-        /* width: 100%; */
         flex-direction: row;
         justify-content: flex-start;
         align-items: baseline;
@@ -386,20 +355,12 @@ export default {
         font-weight: 400;
         color: rgb(72, 72, 74);
     }
-    .icon-container{
-        flex-direction: column;
-        align-items: flex-end;
-    }
     .info-title{
         font-weight: 600;
         text-align: center;
         padding: 5px;
     }
-    /* .info-item{
-        font-weight: 300;
-        padding: 5px;
-    } */
-    .options-container{
+    .options-container-selectable{
         margin: 10px;
         background-color: white;
         padding-left: 10px;
@@ -408,13 +369,16 @@ export default {
         padding-bottom: 20px;
         border-radius: 10px;
     }
+    .options-container-picker{
+        margin: 10px;
+        background-color: white;
+        border-radius: 10px;
+    }
     .options-label{
-        /* padding: 10px; */
         margin-top: 15px;
         margin-left: 10px;
         margin-right: 10px;
         color: rgb(72, 72, 74);
-        /* background-color: white; */
     }
     .options-end{
         margin-bottom: 20px;
