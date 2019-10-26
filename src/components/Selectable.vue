@@ -12,8 +12,7 @@
         <text
             v-for="data in dataArray"
             :key="data.id"
-            class="options"
-            :class="{ 'selected': data.selected }"
+            :class="{ 'options': true , 'selected': data.selected }"
             @press="onItemSelected(data.id)">
             {{ data.text }}
         </text>
@@ -55,21 +54,24 @@ export default {
         justify-content: flex-start;
         /* align-items: center; */
         /* background-color: rgb(240, 240, 240); */
-        margin-left: 10px;
+        /* margin-left: 10px; */
     }
-    .flex-item{
+    /* .flex-item{
         width: 26%;
         margin: 10px;
         padding: 10px;
-    }
+    } */
     .options{
+        flex: 1;
         font-size: 14px;
         border-width: 1px;
-        border-color: #007bff;
+        /* background-color: lightslategray;
+        color: aqua; */
+        border-color: rgb(199, 199, 204);
         padding-top: 8px;
         padding-bottom: 8px;
-        padding-right: 6px;
-        padding-left: 6px;
+        text-align: center;
+        /* color: rgb(72, 72, 74); */
     }
     .selected{
         background-color: #007bff;

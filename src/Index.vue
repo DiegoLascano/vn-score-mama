@@ -23,7 +23,7 @@ const HomeStack = createStackNavigator(
         Home: {
             screen: Home,
             navigationOptions: {
-                title: 'Home',
+                title: 'Score MAMÁ',
             },
         },
     },
@@ -31,6 +31,7 @@ const HomeStack = createStackNavigator(
         initialRouteName: 'Home',
         defaultNavigationOptions : {
             headerStyle: {
+                backgroundColor: rgb(242,242,247),
                 // backgroundColor: Platform.OS === 'ios' ? '' : '#694fad',
                 marginTop: Platform.OS === 'ios' ? 0 : -24,
             },
@@ -44,7 +45,7 @@ const SettingsStack = createStackNavigator(
         Settings: {
             screen: Settings,
             navigationOptions: {
-                title: 'Settings'
+                title: 'Instrucciones'
             },
         },
     },
@@ -52,6 +53,7 @@ const SettingsStack = createStackNavigator(
         initialRouteName: 'Settings',
         defaultNavigationOptions : {
             headerStyle: {
+                backgroundColor: rgb(242,242,247),
                 // backgroundColor: Platform.OS === 'ios' ? '' : '#694fad',
                 marginTop: Platform.OS === 'ios' ? 0 : -24,
             },
@@ -86,7 +88,7 @@ const androidNavigator = createMaterialTopTabNavigator (
             }
         },
         defaultNavigationOptions: ({ navigation }) => ({
-            barStyle: { backgroundColor: '#694fad' },
+            // barStyle: { backgroundColor: '#694fad' },
             tabBarIcon: ({ focused, horizontal, tintColor }) => {
                 const { routeName } = navigation.state;
                 let IconComponent = Ionicons;
@@ -120,8 +122,13 @@ const iosNavigator = createBottomTabNavigator (
     }, 
     {
         initialRouteName: 'Home',
+        tabBarOptions: {
+            style: {
+                backgroundColor: rgb(242,242,247) //color from apple website for light theme
+            }
+        },
         defaultNavigationOptions: ({ navigation }) => ({
-            // barStyle: { backgroundColor: '#694fad' },
+            // barStyle: { backgroundColor: rgb(242,242,247) },
             tabBarIcon: ({ focused, horizontal, tintColor }) => {
                 const { routeName } = navigation.state;
                 let IconComponent = Ionicons;

@@ -1,9 +1,16 @@
 <template>
     <view>
+            <!-- :style="{ backgroundColor: 'rgb(242,242,247)' }" -->
+                <!-- backgroundColor: '#d3d3d3', -->
         <nb-picker
             mode="dropdown"
             placeholder="Selecciona una opción"
-            :style="{ backgroundColor: 'rgb(240, 240, 240)' }"
+            iosHeader="Seleccionar"
+            :textStyle="{ color: '#007bff', fontSize: 14 }"
+            :itemStyle="{
+                marginLeft: 0,
+                paddingLeft: 20
+            }"
             :selectedValue="selected"
             :onValueChange="onValueChange">
             <item 

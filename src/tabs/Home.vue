@@ -1,12 +1,49 @@
 <template>
     <nb-container>
-        <nb-card>
+        <view>
+            <view 
+                :style="{ backgroundColor: 'rgb(242,242,247)', paddingTop: 10 }">
+                <touchable-opacity
+                    class="score-container"
+                    :style="{ backgroundColor: scoreColor, flexDirection: 'row', justifyContent: 'space-between' }"
+                    @press="toggleScoreInfo()">
+                    <view class="score-up" >
+                        <text class="score-sub">Resultado</text> 
+                        <!-- <text class="score-sub">Score MAMA</text>  -->
+                        <view class="score-down">
+                            <nb-text class="score-punctuation">{{ scoreMAMA.score }}</nb-text>
+                            <nb-text :style="{ fontSize: 14, color: 'rgb(72, 72, 74)' }">&nbsp;puntos</nb-text>
+                        </view>
+                    </view>
+                    <view class="icon-container">
+                        <nb-icon v-if="!showScoreInfo" :style="{ color: 'rgb(44, 44, 46)' }" name='ios-add-circle' /> 
+                        <nb-text  v-if="!showScoreInfo" :style="{ fontSize: 12, color: 'rgb(99,99,102)' }">Ver más</nb-text>
+                        <nb-icon v-if="showScoreInfo" :style="{ color: 'rgb(44, 44, 46)' }" name='ios-arrow-dropup-circle' /> 
+                        <nb-text v-if="showScoreInfo" :style="{ fontSize: 12, color: 'rgb(99,99,102)' }">Ver menos</nb-text>
+                    </view>
+                </touchable-opacity>
+            </view>
+            <view
+                v-if="showScoreInfo"
+                :style="{backgroundColor: 'rgb(242,242,247)', paddingTop: 10 }">
+                <view   
+                    class="score-container"
+                    :style="{ backgroundColor: scoreColor }">
+                    <nb-text class="info-title">{{ scoreMAMA.title }}</nb-text>
+                        <flat-list
+                            :data="scoreMAMA.steps"
+                            :render-item="(item) => renderList(item)"
+                        />
+                </view>
+            </view>
+        </view>
+        <!-- <nb-card>
             <nb-card-item 
                 header 
                 button 
                 bordered
                 @press="toggleScoreInfo()" 
-                :style="{ backgroundColor: scoreColor, padding: 20, flexDirection: 'row', justifyContent: 'space-between' }">
+                :style="{ backgroundColor: scoreColor, padding: 20, flexDirection: 'row', justifyContent: 'space-between', borderRadius: 20 }">
                 <view class="score-up" >
                     <text class="score-sub">Score MAMA</text> 
                     <view class="score-down">
@@ -33,42 +70,42 @@
                             />
                     </nb-body>
             </nb-card-item>
-        </nb-card>
-        <nb-content>
-            <view>
-                <text :style="{ padding: 10, marginTop: 15 }">Seleccione el establecimiento</text>
+        </nb-card> -->
+        <nb-content class="body-container">
+            <text class="options-label">Tipo de establecimiento</text>
+            <view class="options-container">
                 <Picker :array="establecimientos" />
             </view>
-            <view>
-                <text :style="{ padding: 10, marginTop: 15 }">Selecione la frecuencia cardiaca</text>
+            <text class="options-label">Frecuencia Cardíaca</text>
+            <view class="options-container">
                 <Selectable :array="frecuenciaCardiaca"></Selectable>
             </view>
-            <view>
-                <text :style="{ padding: 10, marginTop: 15 }">Selecione la presión Sistólica</text>
+            <text class="options-label">Presión Sistólica</text>
+            <view class="options-container">
                 <Selectable :array="sistolica"></Selectable>
             </view>
-            <view>
-                <text :style="{ padding: 10, marginTop: 15 }">Seleccione la presión Diastólica</text>
+            <text class="options-label">Presión Diastólica</text>
+            <view class="options-container">
                 <Selectable :array="diastolica"></Selectable>
             </view>
-            <view>
-                <text :style="{ padding: 10, marginTop: 15 }">Seleccione la frecuencia respiratoria</text>
+            <text class="options-label">Frecuencia Respiratoria</text>
+            <view class="options-container">
                 <Selectable :array="frecuenciaRespitatoria"></Selectable>
             </view>
-            <view>
-                <text :style="{ padding: 10, marginTop: 15 }">Seleccione la temperatura [C]</text>
+            <text class="options-label">Temperatura</text>
+            <view class="options-container">
                 <Selectable :array="temperatura"></Selectable>
             </view>
-            <view>
-                <text :style="{ padding: 10, marginTop: 15 }">Seleccione la saturación [O2]</text>
+            <text class="options-label">Saturación</text>
+            <view class="options-container">
                 <Selectable :array="saturacion"></Selectable>
             </view>
-            <view>
-                <text :style="{ padding: 10, marginTop: 15 }">Seleccione el estado de conciencia</text>
+            <text class="options-label">Estado de Conciencia</text>
+            <view class="options-container">
                 <Picker :array="conciencia" />
             </view>
-            <view>
-                <text :style="{ padding: 10, marginTop: 15 }">Seleccione la proteinuria</text>
+            <text class="options-label">Proteinuria</text>
+            <view class="options-container options-end">
                 <Picker :array="proteinuria" />
             </view>
         </nb-content>
@@ -286,7 +323,7 @@ export default {
             if(value == 0) this.scoreColor = '#00cc99';
             else if(value == 1) this.scoreColor = '#fff2e6';
             else if(value >= 2 && value <= 4) this.scoreColor = '#ffcc99';
-            else if(value >= 5) this.scoreColor = '#ff751a';
+            else if(value >= 5) this.scoreColor = '#ff7733';
 
             var tipoHospital = this.establecimientos.filter( establecimiento => establecimiento.selected == true )[0]
 
@@ -308,13 +345,23 @@ export default {
             this.showScoreInfo = ! this.showScoreInfo
         },
         renderList(item) {
-            return (<Text>{item.item.step}</Text>)
+            return (<Text style={{ paddingTop: 7, color: 'rgb(72, 72, 74)' }}>{item.item.step}</Text>)
         }
     },
 }
 </script>
 
 <style>
+    .body-container{
+        padding-top: 10px;
+        background-color: rgb(242,242,247);/* color from iOS light theme */
+    }
+    .score-container{
+        padding: 10; 
+        border-radius: 10; 
+        margin-left: 10;
+        margin-right: 10;
+    }
     .score-up{
         /* position: relative; */
         /* width: 100%; */
@@ -329,13 +376,15 @@ export default {
     }
     .score-punctuation{
         color: #5c5c8a;
-        font-size: 36px;
+        font-size: 48px;
         font-weight: 800;
+        color: rgb(44, 44, 46);
     }
     .score-sub{
         padding-bottom: 15px;
-        font-size: 12px;
+        font-size: 14px;
         font-weight: 400;
+        color: rgb(72, 72, 74);
     }
     .icon-container{
         flex-direction: column;
@@ -346,8 +395,28 @@ export default {
         text-align: center;
         padding: 5px;
     }
-    .info-item{
+    /* .info-item{
         font-weight: 300;
         padding: 5px;
+    } */
+    .options-container{
+        margin: 10px;
+        background-color: white;
+        padding-left: 10px;
+        padding-right: 10px;
+        padding-top: 20px;
+        padding-bottom: 20px;
+        border-radius: 10px;
+    }
+    .options-label{
+        /* padding: 10px; */
+        margin-top: 15px;
+        margin-left: 10px;
+        margin-right: 10px;
+        color: rgb(72, 72, 74);
+        /* background-color: white; */
+    }
+    .options-end{
+        margin-bottom: 20px;
     }
 </style>
