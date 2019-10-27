@@ -1,33 +1,44 @@
 <template>
     <nb-container>
         <view>
+        <!-- <view :style="{ display: 'flex', justifyContent: 'center', alignItems: 'center'}">
+            <text :style="{  }">Probando</text>
+        </view> -->
+                <!-- testDeviceID="EMULATOR"  -->
+            <AdMobBanner
+                bannerSize="smartBannerPortrait"
+                adUnitID="ca-app-pub-3688502661060531/3694771038"
+                servePersonalizedAds 
+                :onDidFailToReceiveAdWithError="bannerError"
+            />
             <view 
-                :style="{ backgroundColor: 'rgb(242,242,247)', paddingTop: 10 }">
-                <touchable-opacity
+                :style="{ backgroundColor: 'rgb(242,242,247)' }">
+                <view
                     class="score-container"
                     :style="{ backgroundColor: scoreColor, flexDirection: 'row', justifyContent: 'space-between' }"
-                    @press="toggleScoreInfo()">
+                >
                     <view class="score-up" >
                         <text class="score-sub">Resultado</text> 
-                        <!-- <text class="score-sub">Score MAMA</text>  -->
                         <view class="score-down">
                             <nb-text class="score-punctuation">{{ scoreMAMA.score }}</nb-text>
-                            <nb-text :style="{ fontSize: 14, color: 'rgb(72, 72, 74)' }">&nbsp;puntos</nb-text>
+                            <nb-text v-if="scoreMAMA.score != '' " :style="{ fontSize: 14, color: 'rgb(72, 72, 74)' }">&nbsp;puntos</nb-text>
                         </view>
                     </view>
-                    <view :style="{ display: 'flex' }">
-                        <view :style="{ flex: 1 }">
-                            <view v-if="!showScoreInfo" :style="{ flex: 1, flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }">
-                                <nb-icon :style="{ color: 'rgb(44, 44, 46)' }" name='ios-add-circle' /> 
+                    <view :style="{ display: 'flex', justifyContent: 'flex-start' }">
+                            <view v-if="!showScoreInfo" :style="{ flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }">
+                                <touchable-opacity @press="toggleScoreInfo()">
+                                    <nb-icon class="icon-style" name='ios-add-circle' /> 
+                                </touchable-opacity>
                                 <nb-text :style="{ fontSize: 12, color: 'rgb(99,99,102)' }">Ver más</nb-text>
                             </view>
-                            <view v-if="showScoreInfo" :style="{ flex: 1, flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }">
-                                <nb-icon :style="{ color: 'rgb(44, 44, 46)' }" name='ios-arrow-dropup-circle' /> 
+                            <view v-if="showScoreInfo" :style="{ flexDirection: 'column', justifyContent: 'center', alignItems: 'center' }">
+                                <touchable-opacity @press="toggleScoreInfo()">
+                                    <nb-icon class="icon-style" name='ios-arrow-dropup-circle' /> 
+                                </touchable-opacity>
                                 <nb-text :style="{ fontSize: 12, color: 'rgb(99,99,102)' }">Ver menos</nb-text>
                             </view>
-                        </view>
                     </view>
-                </touchable-opacity>
+                </view>
             </view>
             <view
                 v-if="showScoreInfo"
@@ -80,6 +91,14 @@
             <view class="options-container-picker options-end">
                 <Picker :array="proteinuria" />
             </view>
+            <view :style="{ display: 'flex', flexDirection: 'row', alignItems: 'center', marginBottom: 20 }">
+                <touchable-opacity
+                    class="btn"
+                    @press="showAdd()"    
+                >
+                    <text class="btn-text">Calcular Score Mamá</text>
+                </touchable-opacity>
+            </view>
         </nb-content>
     </nb-container>
 </template>
@@ -89,10 +108,16 @@ import React from 'react'
 import { Text, View } from 'native-base'
 import Selectable from '../components/Selectable';
 import Picker from '../components/Picker';
+import { 
+    AdMobBanner,
+    AdMobInterstitial 
+} from 'expo-ads-admob'
+
 export default {
     components: {
         Selectable,
         Picker,
+        AdMobBanner,
     },
     props: {
         navigation: {
@@ -274,13 +299,69 @@ export default {
                 { type:'AB', label: 'Puesto de salud, Centros de salud tipo A, B, y de atención prehospitalaria', value: 'key0', selected: true },
                 { type:'C', label: 'Establecimientos Tipo C y hospitales básicos', value: 'key1', selected: false },
             ],
-            scoreColor: '',
+            scoreColor: 'rgba(175,82,222,.5)',
             showScoreInfo: false,
             scoreMAMAReal: 0,
+            scoreMAMA: {score: '', title: 'Llene los datos para calcular el score mamá', steps: ''},
         }
     },
     computed: {
-        scoreMAMA() {
+        // scoreMAMA() {
+        //     value =  this.frecuenciaCardiaca.filter( fc => fc.selected == true )[0].score + 
+        //         this.sistolica.filter( sist => sist.selected == true )[0].score +
+        //         this.diastolica.filter( diast => diast.selected == true )[0].score +
+        //         this.frecuenciaRespitatoria.filter( fr => fr.selected == true )[0].score +
+        //         this.temperatura.filter( fr => fr.selected == true )[0].score +
+        //         this.saturacion.filter( fr => fr.selected == true )[0].score +
+        //         this.conciencia.filter( state => state.selected == true )[0].score +
+        //         this.proteinuria.filter( proteinuria => proteinuria.selected == true )[0].score;
+
+        //     this.scoreMAMAReal = value;
+
+        //     if(value == 0) this.scoreColor = '#00cc99';
+        //     else if(value == 1) this.scoreColor = '#fff2e6';
+        //     else if(value >= 2 && value <= 4) this.scoreColor = '#ffcc99';
+        //     else if(value >= 5) this.scoreColor = '#ff7733';
+
+        //     var tipoHospital = this.establecimientos.filter( establecimiento => establecimiento.selected == true )[0]
+
+        //     var scoreInfoSteps= [];
+        //     if(tipoHospital.type == 'AB') scoreInfoSteps = this.scoreSteps.filter(element => element.establecimiento == 'AB');
+        //     else if(tipoHospital.type == 'C') scoreInfoSteps = this.scoreSteps.filter(element => element.establecimiento == 'C');
+
+        //     return scoreInfoSteps[0].data.filter(step => {
+        //         if(step.score == value) {
+        //             return true;
+        //         }else if((value >= 5) && (step.score == 5 )){
+        //             return true;
+        //         }
+        //     })[0];
+        // }
+    },
+    mounted() {
+        AdMobInterstitial.setAdUnitID('ca-app-pub-3688502661060531/7793798143'); // Test ID, Replace with your-admob-unit-id
+        // AdMobInterstitial.setTestDeviceID('EMULATOR');
+        AdMobInterstitial.addEventListener("interstitialDidClose", this.calcularScoreMama);
+        // setTimeout(this.showAdd, 30000);
+    },
+    beforeDestroy() {
+        AdMobInterstitial.removeAllListeners();
+    },
+    methods: {
+        toggleScoreInfo() {
+            this.showScoreInfo = ! this.showScoreInfo
+        },
+        renderList(item) {
+            return (<Text style={{ paddingTop: 7, color: 'rgb(72, 72, 74)' }}>{item.item.step}</Text>)
+        },
+        bannerError(e) {
+            alert(e)
+        },
+        async showAdd() {
+            await AdMobInterstitial.requestAdAsync({ servePersonalizedAds: true});
+            await AdMobInterstitial.showAdAsync();
+        },
+        calcularScoreMama() {
             value =  this.frecuenciaCardiaca.filter( fc => fc.selected == true )[0].score + 
                 this.sistolica.filter( sist => sist.selected == true )[0].score +
                 this.diastolica.filter( diast => diast.selected == true )[0].score +
@@ -297,28 +378,17 @@ export default {
             else if(value >= 2 && value <= 4) this.scoreColor = '#ffcc99';
             else if(value >= 5) this.scoreColor = '#ff7733';
 
-            var tipoHospital = this.establecimientos.filter( establecimiento => establecimiento.selected == true )[0]
+            var tipoHospital = this.establecimientos.filter( establecimiento => establecimiento.selected == true )[0];
 
             var scoreInfoSteps= [];
             if(tipoHospital.type == 'AB') scoreInfoSteps = this.scoreSteps.filter(element => element.establecimiento == 'AB');
             else if(tipoHospital.type == 'C') scoreInfoSteps = this.scoreSteps.filter(element => element.establecimiento == 'C');
 
-            return scoreInfoSteps[0].data.filter(step => {
-                if(step.score == value) {
-                    return true;
-                }else if((value >= 5) && (step.score == 5 )){
-                    return true;
-                }
+            this.scoreMAMA = scoreInfoSteps[0].data.filter(step => {
+                if(step.score == value) return true;
+                else if((value >= 5) && (step.score == 5 )) return true;
             })[0];
-        }
-    },
-    methods: {
-        toggleScoreInfo() {
-            this.showScoreInfo = ! this.showScoreInfo
         },
-        renderList(item) {
-            return (<Text style={{ paddingTop: 7, color: 'rgb(72, 72, 74)' }}>{item.item.step}</Text>)
-        }
     },
 }
 </script>
@@ -329,10 +399,12 @@ export default {
         background-color: rgb(242,242,247);/* color from iOS light theme */
     }
     .score-container{
-        padding: 10; 
-        border-radius: 10; 
-        margin-left: 10;
-        margin-right: 10;
+        padding-top: 2px;
+        padding-left: 10px; 
+        padding-right: 10px; 
+        margin-left: 10px;
+        margin-right: 10px;
+        border-radius: 10px; 
     }
     .score-up{
         flex-direction: column;
@@ -382,5 +454,25 @@ export default {
     }
     .options-end{
         margin-bottom: 20px;
+    }
+    .icon-style{
+        color: rgb(44, 44, 46);
+        font-size: 20; /*Tamaño del icono*/
+    }
+    .btn {
+        background-color: #007bff;
+        color: white;
+        flex: 1;
+        flex-direction: row;
+        justify-content: center;
+        align-items: center;
+        margin-left: 10px;
+        margin-right: 10px;
+        padding: 10px;
+        border-radius: 10px;
+    }
+    .btn-text{
+        color: white;
+        font-size: 16px;
     }
 </style>

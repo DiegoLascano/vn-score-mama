@@ -1,40 +1,48 @@
 {
-  "expo": {
-    "name": "Score MAMA",
-    "slug": "vn-score-mama",
-    "privacy": "public",
-    "sdkVersion": "35.0.0",
-    "platforms": [
-      "ios",
-      "android",
-      "web"
-    ],
-    "version": "1.0.0",
-    "orientation": "portrait",
-    "icon": "./assets/icon.png",
-    "splash": {
-      "image": "./assets/splash.png",
-      "resizeMode": "contain",
-      "backgroundColor": "#ffffff"
-    },
-    "updates": {
-      "fallbackToCacheTimeout": 0
-    },
-    "assetBundlePatterns": [
-      "**/*"
-    ],
-    "ios": {
-      "supportsTablet": true
-    },
-    "packagerOpts": {
-      "config": "metro.config.js",
-      "sourceExts": [
-        "js",
-        "json",
-        "ts",
-        "tsx",
-        "vue"
-      ]
+    "expo": {
+        "name": "Score MAMA",
+        "slug": "vn-score-mama",
+        "privacy": "public",
+        "sdkVersion": "35.0.0",
+        "platforms": [
+            "ios",
+            "android",
+            "web"
+        ],
+        "version": "1.0.0",
+        "orientation": "portrait",
+        "icon": "./assets/icon.png",
+        "splash": {
+            "image": "./assets/splash.png",
+            "resizeMode": "contain",
+            "backgroundColor": "#ffffff"
+        },
+        "updates": {
+            "fallbackToCacheTimeout": 0
+        },
+        "assetBundlePatterns": [
+            "**/*"
+        ],
+        "android": {
+            "config": {
+                "googleMobileAdsAppId": "ca-app-pub-3688502661060531~6564476958"
+            }
+        },
+        "ios": {
+            "supportsTablet": true,
+            "config": {
+                "googleMobileAdsAppId": "ca-app-pub-3688502661060531~6564476958"
+            }
+        },
+        "packagerOpts": {
+            "config": "metro.config.js",
+            "sourceExts": [
+                "js",
+                "json",
+                "ts",
+                "tsx",
+                "vue"
+            ]
+        }
     }
-  }
 }

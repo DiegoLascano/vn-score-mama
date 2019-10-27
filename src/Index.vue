@@ -16,7 +16,7 @@ import { createAppContainer,
         createMaterialTopTabNavigator, } from "vue-native-router";
 // tabs
 import Home from "./tabs/Home";
-import Settings from "./tabs/Settings";
+import Instructions from "./tabs/Instructions";
 
 const HomeStack = createStackNavigator(
     {
@@ -40,17 +40,17 @@ const HomeStack = createStackNavigator(
     },
 );
 
-const SettingsStack = createStackNavigator(
+const InstructionsStack = createStackNavigator(
     {
-        Settings: {
-            screen: Settings,
+        Instructions: {
+            screen: Instructions,
             navigationOptions: {
                 title: 'Instrucciones'
             },
         },
     },
     {
-        initialRouteName: 'Settings',
+        initialRouteName: 'Instructions',
         defaultNavigationOptions : {
             headerStyle: {
                 backgroundColor: rgb(242,242,247),
@@ -71,8 +71,8 @@ const androidNavigator = createMaterialTopTabNavigator (
                 title: 'Calculadora',
             },
         },
-        Settings: {
-            screen: SettingsStack,
+        Instructions: {
+            screen: InstructionsStack,
             navigationOptions: {
                 title: 'Instrucciones',
             } 
@@ -95,9 +95,9 @@ const androidNavigator = createMaterialTopTabNavigator (
                 let iconName;
                 if (routeName === 'Home') {
                     // iconName = `md-information-circle${focused ? '' : '-outline'}`;
-                    iconName = `md-medkit`;
-                } else if (routeName === 'Settings') {
-                    iconName = `md-settings`;
+                    iconName = `md-calculator`;
+                } else if (routeName === 'Instructions') {
+                    iconName = `md-book`;
                 }
                 return <IconComponent name={ iconName } size={ 25 } color={ tintColor }/>
             }
@@ -113,8 +113,8 @@ const iosNavigator = createBottomTabNavigator (
                 title: 'Calculadora',
             },
         },
-        Settings: {
-            screen: SettingsStack,
+        Instructions: {
+            screen: InstructionsStack,
             navigationOptions: {
                 title: 'Instrucciones',
             } 
@@ -135,9 +135,9 @@ const iosNavigator = createBottomTabNavigator (
                 let iconName;
                 if (routeName === 'Home') {
                     // iconName = `md-information-circle${focused ? '' : '-outline'}`;
-                    iconName = `md-medkit`;
-                } else if (routeName === 'Settings') {
-                    iconName = `md-settings`;
+                    iconName = `ios-calculator`;
+                } else if (routeName === 'Instructions') {
+                    iconName = `ios-book`;
                 }
                 return <IconComponent name={ iconName } size={ 28 } color={ tintColor }/>
             }
