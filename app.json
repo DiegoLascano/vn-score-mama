@@ -1,7 +1,7 @@
 {
     "expo": {
         "name": "Score MAMA",
-        "slug": "vn-score-mama",
+        "slug": "nextechdevelopment-score-mama",
         "privacy": "public",
         "sdkVersion": "35.0.0",
         "platforms": [
@@ -9,13 +9,13 @@
             "android",
             "web"
         ],
-        "version": "1.0.0",
+        "version": "1.0.1",
         "orientation": "portrait",
-        "icon": "./assets/icon.png",
+        "icon": "./assets/LOGO-HEXAGONO-512X512.png",
         "splash": {
-            "image": "./assets/splash.png",
+            "image": "./assets/LOGO-splash.png",
             "resizeMode": "contain",
-            "backgroundColor": "#ffffff"
+            "backgroundColor": "#fcfcfc"
         },
         "updates": {
             "fallbackToCacheTimeout": 0
@@ -24,14 +24,17 @@
             "**/*"
         ],
         "android": {
+            "package": "com.nextechdevelopment.scoremama",
+            "versionCode": 1,
             "config": {
-                "googleMobileAdsAppId": "ca-app-pub-3688502661060531~6564476958"
+                "googleMobileAdsAppId": "ca-app-pub-1500612778036594~9558633899"
             }
         },
         "ios": {
-            "supportsTablet": true,
+            "bundleIdentifier": "com.nextechdevelopment.scoremama",
+            "buildNumber": "1.0.0",
             "config": {
-                "googleMobileAdsAppId": "ca-app-pub-3688502661060531~6564476958"
+                "googleMobileAdsAppId": "ca-app-pub-1500612778036594~9728549500"
             }
         },
         "packagerOpts": {
